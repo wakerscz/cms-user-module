@@ -70,10 +70,10 @@ class UserCreateCommand extends Command
             $output->writeln("<info>User {$email} successfully created.</info>");
         }
 
-        catch (\Exception $e)
+        catch (\Exception $exception)
         {
             $con->rollBack();
-            $output->writeln("<error>{$e->getMessage()}</error>");
+            $output->writeln("<error>{$exception->getMessage()}</error>");
         }
 
     }
