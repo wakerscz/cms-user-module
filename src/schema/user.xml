@@ -1,0 +1,11 @@
+<table name="user" phpName="User" namespace="UserModule\Database" package="./user-module/">
+    <column name="id" type="INTEGER" required="TRUE" primaryKey="TRUE" autoIncrement="TRUE"/>
+    <column name="status" type="TINYINT" required="TRUE" defaultValue="0"/>
+    <column name="email" type="VARCHAR" required="TRUE" size="128"/>
+    <column name="password" type="VARCHAR" required="TRUE" size="256"/>
+    <column name="last_login" type="TIMESTAMP" />
+
+    <unique>
+        <unique-column name="email"/>
+    </unique>
+</table>

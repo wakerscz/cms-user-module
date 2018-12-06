@@ -1,0 +1,101 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+{define status}
+    {var $status = Wakers\UserModule\Security\UserAuthorizator::ALL_STATUS_KEYS[$userEntity->getStatus()]}
+
+    {if $status === Wakers\UserModule\Security\UserAuthorizator::STATUS_PENDING_APPROVAL}
+        <strong>{$status}</strong>
+    {else}
+        {$status}
+    {/if}
+{/define}
+
+{define userRoles}
+    {foreach $userEntity->getUserRoles() as $role}
+        {Wakers\UserModule\Security\UserAuthorizator::ALL_ROLE_KEYS[$role->getRoleKey()]}
+    {/foreach}
+{/define}
+
+{if $user->isAllowed(Wakers\UserModule\Security\UserAuthorizator::RES_SUMMARY)}
+    <div class="wakers_modal" id="wakers_user_summary_modal">
+
+        <div class="modal_title">
+            <span class="close" data-wakers-modal-close>&#x2715</span>
+            Přehled uživatelů
+        </div>
+
+        <div class="wakers_table">
+            <table>
+                <thead>
+                <tr>
+                    <th># ({count($userEntities)})</th>
+                    <th>E-mail</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>On-line</th>
+                </tr>
+                </thead>
+                <tbody n:snippet="users">
+                    {foreach $userEntities as $userEntity}
+                        <tr>
+                            <td>
+                                #{$userEntity->getId()}
+                            </td>
+
+                            <td>
+                                {$userEntity->getEmail()}
+                            </td>
+
+                            <td>{include status}</td>
+                            <td>{include userRoles}</td>
+                            <td>
+                                {var $date = $userEntity->getLastLogin()}
+
+                                {if $date}
+                                    {$date|date: 'j.n.Y H:i'}
+                                {else}
+                                    nikdy
+                                {/if}
+                            </td>
+
+                            <td class="text_right actions">
+
+                                {var $authorizator = Wakers\UserModule\Security\UserAuthorizator::class}
+
+                                {var $allowRemove = (
+                                    (
+                                        !$userEntity->isInRole($authorizator::ROLE_ADMIN)
+                                        || $user->isAllowed($authorizator::RES_EDIT_ADMINS)
+                                    )
+                                    && $user->isAllowed($authorizator::RES_REMOVE_HANDLE)
+                                    && $userEntity->getId() !== $user->getId()
+                                )}
+
+                                {if $allowRemove}
+                                    <a href="{plink userRemoveModal:Open! 'userId' => $userEntity->getId()}" class="wakers_btn btn_small inverse" data-wakers-tooltip="Odstranit" data-wakers-progress-button>
+                                        &#x267A;
+                                    </a>
+                                {/if}
+
+
+                                {if $user->isAllowed($authorizator::RES_EDIT_MODAL)}
+                                    <a href="{plink userEditModal:Open! 'userId' => $userEntity->getId()}" target="_blank" class="wakers_btn btn_small inverse" data-wakers-tooltip="Přejít na detail" data-wakers-progress-button>
+                                        &#x270E;
+                                    </a>
+                                {/if}
+
+                            </td>
+                        </tr>
+                    {/foreach}
+
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+{/if}

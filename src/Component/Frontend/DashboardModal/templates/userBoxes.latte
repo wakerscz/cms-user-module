@@ -1,0 +1,33 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+{var $authorizator = Wakers\UserModule\Security\UserAuthorizator::class}
+
+{if $user->isAllowed($authorizator::RES_USER_MODULE)}
+    <div class="wakers_dashboard">
+        <div class="modal_subtitle">Uživatelé</div>
+
+        <div class="dashboard_boxes">
+            {if $user->isAllowed($authorizator::RES_SUMMARY)}
+                <div class="dashboard_box">
+                    <a href="#" data-wakers-modal-open="wakers_user_summary_modal">
+                        Přehled uživatelů
+                    </a>
+                </div>
+            {/if}
+
+            {if $user->isAllowed($authorizator::RES_ADD_FORM)}
+                <div class="dashboard_box">
+                    <a class="#" data-wakers-modal-open="wakers_user_add_modal">
+                        Přidat nového uživatele
+                    </a>
+                </div>
+            {/if}
+        </div>
+
+    </div>
+{/if}

@@ -1,0 +1,45 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="modal_subtitle">
+    Nastavení oprávnění
+</div>
+
+<form n:name="permissionForm" class="wakers_form">
+    <div class="form_group">
+        <div class="group_label">
+            <label n:name="role">Role:</label>
+        </div>
+
+        <div class="group_control">
+            <select n:name="role"></select>
+        </div>
+    </div>
+
+    <div class="form_group">
+        <div class="group_label">
+            <label n:name="status">Status:</label>
+        </div>
+
+        <div class="group_control">
+            <select n:name="status"></select>
+
+            <div class="control_info">
+                <span data-wakers-tooltip="Schválen / čeká na schválení / zamítnut.">
+                    &#10025;
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form_group">
+        <div class="group_label"></div>
+        <div class="group_control">
+            <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Uložit nastavení</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,43 @@
+/**
+ * For the full copyright and license information, please view the license.md.
+ * Copyright (c) 2018 Faculty of Education - University of South Bohemia in České Budějovice
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ */
+
+.user_login
+{
+    background: linear-gradient(to bottom right, $color-blue-wk, $color-blue-wk-light);
+
+    .user_login_form
+    {
+        border: 1px solid $color-blue-wk-light;
+        padding: 2rem;
+        margin: 2rem;
+        background-color: transparentize($color-white, .05);
+        box-shadow: 0 0 5px darken($color-blue-wk, 10%);
+
+        h1
+        {
+            font-size: 2rem;
+            color: $color-gray;
+        }
+
+        label
+        {
+            color: $color-gray;
+            font-weight: 700;
+
+            &.fw_normal
+            {
+                font-weight: 400;
+            }
+        }
+
+        input
+        {
+            background-color: transparentize($color-white, 0.1);
+        }
+    }
+}

@@ -1,0 +1,43 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+<div class="wakers_modal" id="wakers_user_login_modal">
+
+    <div class="modal_title">
+        <span class="close" data-wakers-modal-close>&#x2715</span>
+        Přihlášení
+    </div>
+
+    <form n:name="loginForm" class="wakers_form">
+        <div class="form_group">
+            <div class="group_label">
+                <label n:name="email">E-mail:</label>
+            </div>
+
+            <div class="group_control">
+                <input n:name="email" placeholder="vas@email.cz">
+            </div>
+        </div>
+
+        <div class="form_group">
+            <div class="group_label">
+                <label n:name="password">Heslo:</label>
+            </div>
+
+            <div class="group_control">
+                <input n:name="password" placeholder="Heslo">
+            </div>
+        </div>
+
+        <div class="form_group">
+            <div class="group_label"></div>
+            <div class="group_control">
+                <button n:name="login" type="submit" class="wakers_btn" data-wakers-progress-button>Přihlásit se</button>
+            </div>
+        </div>
+    </form>
+</div>

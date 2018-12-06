@@ -1,0 +1,40 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+{var $baseAuthorizator = Wakers\BaseModule\Security\BaseAuthorizator::class}
+{var $userAuthorizator = Wakers\UserModule\Security\UserAuthorizator::class}
+
+<div class="wakers_dashboard">
+
+    <div class="modal_info">
+        Jste přihlášen jako <strong>{$user->getIdentity()->getData()['userEntity']->getEmail()}</strong>
+        s oprávněním: <strong>{$user->getIdentity()->getRoles()|implode: ', '}</strong>.<br>
+        Předchozí příhlášení:
+        <strong>
+            {var $date = $user->getIdentity()->getData()['userEntity']->getLastLogin()}
+
+            {if $date}
+                {$date|date: 'j. n. Y H:i:s'}
+            {else}
+                nikdy
+            {/if}
+        </strong>
+    </div>
+
+    <div class="modal_info">
+        <a href="{plink Logout!}" class="wakers_btn inverse">Odhlásit se</a>
+
+        {if $user->isAllowed($userAuthorizator::RES_EDIT_MODAL)}
+            <a href="{plink userEditModal:Open! 'userId' => $user->getId()}" class="wakers_btn inverse" data-wakers-progress-button>Váš profil</a>
+        {/if}
+
+        {if $user->isAllowed($baseAuthorizator::RES_SITE_MANAGER)}
+            <a href="{plink :Base:Admin:Dashboard}" class="wakers_btn inverse">Site Manager</a>
+        {/if}
+    </div>
+
+</div>

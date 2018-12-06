@@ -1,0 +1,111 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+{var $authorizator = Wakers\UserModule\Security\UserAuthorizator::class}
+
+{if $user->isAllowed($authorizator::RES_ADD_FORM)}
+    <div class="wakers_modal" id="wakers_user_add_modal">
+        <div class="modal_title">
+            <a href="#" class="close" data-wakers-modal-close>&#x2715</a>
+            Přidat nového uživatele
+        </div>
+
+        {snippet addForm}
+            <form n:name="addForm" class="wakers_form">
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="email" >E-mail:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="email" placeholder="nejaky@email.cz">
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="password">Heslo:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="password">
+
+                        <div class="control_info">
+                            <span data-wakers-tooltip="Generováno automaticky - po uložení se odešle na uvedený e-mail.">
+                                &#10025;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="role">Role:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <select n:name="role"></select>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="status">Status:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <select n:name="status"></select>
+
+                        <div class="control_info">
+                            <span data-wakers-tooltip="Schválen / čeká na schválení / zamítnut.">
+                                &#10025;
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="phone">Telefon:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="phone" placeholder="+420 ...">
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="firstName">Křestní jméno:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="firstName" type="text">
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label">
+                        <label n:name="lastName">Příjmení:</label>
+                    </div>
+
+                    <div class="group_control">
+                        <input n:name="lastName" type="text">
+                    </div>
+                </div>
+
+                <div class="form_group">
+                    <div class="group_label"></div>
+                    <div class="group_control">
+                        <button n:name="save" type="submit" class="wakers_btn" data-wakers-progress-button>Přidat uživatele</button>
+                    </div>
+                </div>
+            </form>
+        {/snippet}
+
+    </div>
+{/if}

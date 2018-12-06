@@ -1,0 +1,28 @@
+{**
+ * Copyright (c) 2018 Wakers.cz
+ *
+ * @author Jiří Zapletal (http://www.wakers.cz, zapletal@wakers.cz)
+ *
+ *}
+
+
+{if $user->isAllowed(Wakers\UserModule\Security\UserAuthorizator::RES_EDIT_MODAL)}
+    <div class="wakers_modal" id="wakers_user_edit_modal">
+        {snippet modal}
+            {if $userEntity}
+                <div class="modal_title">
+                    <span class="close" data-wakers-modal-close>&#x2715</span>
+                    Editace uživatele
+                </div>
+
+                {if $user->isAllowed(Wakers\UserModule\Security\UserAuthorizator::RES_EDIT_PERMISSION_FORM)}
+                    {control permissionForm}
+                {/if}
+
+                {control personalDataForm}
+
+                {control passwordForm}
+            {/if}
+        {/snippet}
+    </div>
+{/if}

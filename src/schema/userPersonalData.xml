@@ -1,0 +1,10 @@
+<table name="user_personal_data" phpName="UserPersonalData" namespace="UserModule\Database" package="./user-module/">
+    <column name="user_id" type="INTEGER" required="TRUE" primaryKey="TRUE"/>
+    <column name="phone" type="VARCHAR" size="32" defaultValue="NULL"/>
+    <column name="first_name" type="VARCHAR" size="128" defaultValue="NULL"/>
+    <column name="last_name" type="VARCHAR" size="128" defaultValue="NULL"/>
+
+    <foreign-key foreignTable="user" onDelete="CASCADE">
+        <reference local="user_id" foreign="id"/>
+    </foreign-key>
+</table>

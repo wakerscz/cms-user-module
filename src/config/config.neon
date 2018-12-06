@@ -1,0 +1,32 @@
+parameters:
+    acl:
+        - Wakers\UserModule\Security\UserAuthorizator
+
+services:
+
+    # Managers
+    - Wakers\UserModule\Manager\UserManager(%smtp%)
+    - Wakers\UserModule\Manager\UserRoleManager
+    - Wakers\UserModule\Manager\UserPersonalDataManager
+
+    # Repositories
+    - Wakers\UserModule\Repository\UserRepository
+    - Wakers\UserModule\Repository\UserRoleRepository
+
+    # Security
+    - Wakers\UserModule\Security\Authenticator
+
+    # Components
+    - Wakers\UserModule\Component\Admin\LoginForm\ILoginForm
+    - Wakers\UserModule\Component\Frontend\LoginModal\ILoginModal
+    - Wakers\UserModule\Component\Frontend\SummaryModal\ISummaryModal
+    - Wakers\UserModule\Component\Frontend\AddModal\IAddModal
+    - Wakers\UserModule\Component\Frontend\RemoveModal\IRemoveModal
+    - Wakers\UserModule\Component\Frontend\PermissionForm\IPermissionForm
+    - Wakers\UserModule\Component\Frontend\PersonalDataForm\IPersonalDataForm
+    - Wakers\UserModule\Component\Frontend\PasswordForm\IPasswordForm
+    - Wakers\UserModule\Component\Frontend\EditModal\IEditModal
+
+console:
+    commands:
+        - Wakers\UserModule\Console\UserCreateCommand
