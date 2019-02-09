@@ -45,19 +45,14 @@ class LoginModal extends LoginForm
 
                 $this->presenter->user->login($identity);
 
-                $this->presenter->notification(
-                    $this->translate->translate('Logged in'),
-                    $this->translate->translate('You have successfully logged in.'),
-                    'success'
-                );
-
+                $this->presenter->notification('Přihlášení', 'Byli jste úspěšně přihlášeni.', 'success');
                 $this->presenter->redirect('this');
             }
 
             catch (AuthenticationException $exception)
             {
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error'
                 );

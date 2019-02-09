@@ -15,7 +15,6 @@ use Nette\Security\AuthenticationException;
 use Propel\Runtime\Exception\PropelException;
 use Wakers\BaseModule\Component\Admin\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\UserModule\Security\Authenticator;
 
 
@@ -30,21 +29,14 @@ class LoginForm extends BaseControl
     protected $authenticator;
 
 
-    /**
-     * @var Translate
-     */
-    protected $translate;
-
 
     /**
      * LoginForm constructor.
      * @param Authenticator $authenticator
-     * @param Translate $translate
      */
-    public function __construct(Authenticator $authenticator, Translate $translate)
+    public function __construct(Authenticator $authenticator)
     {
         $this->authenticator = $authenticator;
-        $this->translate = $translate;
     }
 
 
@@ -67,11 +59,11 @@ class LoginForm extends BaseControl
         $form = new Form;
 
         $form->addText('email')
-            ->setRequired('E-mail is required.')
-            ->addRule(Form::EMAIL, 'E-mail is not valid.');
+            ->setRequired('E-mail je povinný.')
+            ->addRule(Form::EMAIL, 'E-mail není ve správném formátu.');
 
         $form->addPassword('password')
-            ->setRequired('Password is required.');
+            ->setRequired('Heslo je povinné.');
 
         $form->addSubmit('login');
 
@@ -100,8 +92,8 @@ class LoginForm extends BaseControl
                 $this->presenter->user->login($identity);
 
                 $this->presenter->notification(
-                    $this->translate->translate('Logged in'),
-                    $this->translate->translate('You have successfully logged in.'),
+                    'Přihlášení',
+                    'Byli jste úspěšně přihlášení.',
                     'success'
                 );
 
@@ -111,7 +103,7 @@ class LoginForm extends BaseControl
             catch (AuthenticationException $exception)
             {
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error'
                 );

@@ -14,7 +14,6 @@ use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Form;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\UserModule\Database\User;
 use Wakers\UserModule\Manager\UserManager;
 use Wakers\UserModule\Manager\UserPersonalDataManager;
@@ -45,28 +44,19 @@ class PersonalDataForm extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * PrimaryForm constructor.
      * @param User $userEntity
      * @param UserManager $userManager
      * @param UserPersonalDataManager $userPersonalDataManager
-     * @param Translate $translate
      */
     public function __construct(
         User $userEntity,
         UserManager $userManager,
-        UserPersonalDataManager $userPersonalDataManager,
-        Translate $translate
+        UserPersonalDataManager $userPersonalDataManager
     ) {
         $this->userEntity = $userEntity;
         $this->userManager = $userManager;
         $this->userPersonalDataManager = $userPersonalDataManager;
-        $this->translate = $translate;
     }
 
 
@@ -175,9 +165,10 @@ class PersonalDataForm extends BaseControl
                 $this->userManager->getConnection()->commit();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('User edited'),
-                    $this->translate->translate("User %email% successfully edited", ['email' => $this->userEntity->getEmail()]),
-                    'success'
+                    'Uživatel upraven',
+                    "Uživatel '{$this->userEntity->getEmail()}' byl úspěšně upraven.",
+                    'success',
+                    TRUE
                 );
             }
             catch (\Exception $exception)

@@ -15,7 +15,6 @@ use Nette\Application\UI\Form;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
 use Wakers\BaseModule\Database\DatabaseException;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\UserModule\Manager\UserManager;
 use Wakers\UserModule\Manager\UserPersonalDataManager;
 use Wakers\UserModule\Manager\UserRoleManager;
@@ -46,12 +45,6 @@ class AddModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * Callback volaný po vytvoření uživatele
      * @var callable
      */
@@ -63,18 +56,15 @@ class AddModal extends BaseControl
      * @param UserManager $userManager
      * @param UserRoleManager $userRoleManager
      * @param UserPersonalDataManager $userPersonalDataManager
-     * @param Translate $translate
      */
     public function __construct(
         UserManager $userManager,
         UserRoleManager $userRoleManager,
-        UserPersonalDataManager $userPersonalDataManager,
-        Translate $translate
+        UserPersonalDataManager $userPersonalDataManager
     ) {
         $this->userManager = $userManager;
         $this->userRoleManager = $userRoleManager;
         $this->userPersonalDataManager = $userPersonalDataManager;
-        $this->translate = $translate;
     }
 
 
@@ -101,19 +91,19 @@ class AddModal extends BaseControl
         $form = new Form;
 
         $form->addText('email')
-            ->addRule(Form::EMAIL, 'Invalid e-mail format.')
-            ->setRequired('E-mail is required.')
+            ->addRule(Form::EMAIL, 'E-mail je v neplatném formátu.')
+            ->setRequired('E-mail je povinný.')
             ->setDisabled($disabled);
 
         $form->addText('password')
             ->setDisabled();
 
         $form->addSelect('role', NULL, $roles)
-            ->setRequired('User role is required.')
+            ->setRequired('Uživatelská role je povinná.')
             ->setDisabled($disabled);
 
         $form->addSelect('status', NULL, UserAuthorizator::ALL_STATUS_KEYS)
-            ->setRequired('User status is required.')
+            ->setRequired('Uživatelský status je povinný.')
             ->setDisabled($disabled);
 
         $form->addText('phone')
@@ -178,8 +168,8 @@ class AddModal extends BaseControl
                 $this->userManager->getConnection()->commit();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('User created'),
-                    $this->translate->translate('User %email% successfully created.', ['email' => $values->email]),
+                    'Uživatel vytvořen',
+                    "Uživatel {$values->email} byl úspěšně vytvořen.",
                     'success',
                     FALSE
                 );
@@ -195,7 +185,7 @@ class AddModal extends BaseControl
                 $this->userManager->getConnection()->rollBack();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Error'),
+                    'Chyba',
                     $exception->getMessage(),
                     'error'
                 );

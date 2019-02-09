@@ -19,7 +19,6 @@ use Nette\Utils\Random;
 use Propel\Runtime\Exception\PropelException;
 use Wakers\BaseModule\Database\AbstractDatabase;
 use Wakers\BaseModule\Database\DatabaseException;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\UserModule\Database\User;
 use Wakers\UserModule\Repository\UserRepository;
 use Wakers\UserModule\Security\UserAuthorizator;
@@ -60,23 +59,16 @@ class UserManager extends AbstractDatabase
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * UserManager constructor.
      * @param array $smtp
      * @param UserRepository $userRepository
      * @param LinkGenerator $linkGenerator
      */
-    public function __construct(array $smtp, UserRepository $userRepository, LinkGenerator $linkGenerator, Translate $translate)
+    public function __construct(array $smtp, UserRepository $userRepository, LinkGenerator $linkGenerator)
     {
         $this->smtp = $smtp;
         $this->userRepository = $userRepository;
         $this->linkGenerator = $linkGenerator;
-        $this->translate = $translate;
     }
 
 
@@ -94,8 +86,7 @@ class UserManager extends AbstractDatabase
 
         if ($user !== NULL)
         {
-            $message = $this->translate->translate("User with e-mail '%email%' is already registered.", ['email' => $email]);
-            throw new DatabaseException($email);
+            throw new DatabaseException("Uživatel s e-mailem '{$email}' již existuje.");
         }
 
         $user = new User;
@@ -186,8 +177,7 @@ class UserManager extends AbstractDatabase
             'user' => $user,
             'sender' => $pr['sender'],
             'url' => $this->linkGenerator->link('App:Run:setUrl'),
-            'password' => $password,
-            'translate' => $this->translate
+            'password' => $password
         ]);
 
         $message = (new Message)

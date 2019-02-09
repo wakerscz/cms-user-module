@@ -14,7 +14,6 @@ use Nette\Application\ForbiddenRequestException;
 use Nette\Application\UI\Form;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
 use Wakers\BaseModule\Util\AjaxValidate;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\UserModule\Database\User;
 use Wakers\UserModule\Manager\UserManager;
 use Wakers\UserModule\Manager\UserRoleManager;
@@ -45,28 +44,19 @@ class PermissionForm extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * PermissionForm constructor.
      * @param User $userEntity
      * @param UserManager $userManager
      * @param UserRoleManager $userRoleManager
-     * @param Translate $translate
      */
     public function __construct(
         User $userEntity,
         UserManager $userManager,
-        UserRoleManager $userRoleManager,
-        Translate $translate
+        UserRoleManager $userRoleManager
     ) {
         $this->userEntity = $userEntity;
         $this->userManager = $userManager;
         $this->userRoleManager = $userRoleManager;
-        $this->translate = $translate;
     }
 
 
@@ -102,11 +92,11 @@ class PermissionForm extends BaseControl
         $form = new Form;
 
         $form->addSelect('role', NULL, $roles)
-            ->setRequired('Role is required.')
+            ->setRequired('Uživatelská role je povinná')
             ->setDisabled($disabled);
 
         $form->addSelect('status', NULL, UserAuthorizator::ALL_STATUS_KEYS)
-            ->setRequired('Status is required')
+            ->setRequired('Status je povinný.')
             ->setDisabled($disabled);
 
         $form->addSubmit('save')
@@ -157,8 +147,8 @@ class PermissionForm extends BaseControl
                 $this->userManager->getConnection()->commit();
 
                 $this->presenter->notificationAjax(
-                    $this->translate->translate('Permissions updated'),
-                    $this->translate->translate('User permissions successfully updated.'),
+                    'Oprávnění upraveno',
+                    'Uživatelské oprávnění bylo úspěšně upraveno.',
                     'success',
                     FALSE
                 );

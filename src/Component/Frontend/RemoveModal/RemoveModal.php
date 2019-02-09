@@ -12,7 +12,6 @@ namespace Wakers\UserModule\Component\Frontend\RemoveModal;
 
 use Nette\Application\ForbiddenRequestException;
 use Wakers\BaseModule\Component\Frontend\BaseControl;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\UserModule\Database\User;
 use Wakers\UserModule\Manager\UserManager;
 use Wakers\UserModule\Repository\UserRepository;
@@ -41,12 +40,6 @@ class RemoveModal extends BaseControl
 
 
     /**
-     * @var Translate
-     */
-    protected $translate;
-
-
-    /**
      * Callback volaný po odstranění uživatele
      * @var callable
      */
@@ -62,13 +55,11 @@ class RemoveModal extends BaseControl
      * RemoveModal constructor.
      * @param UserRepository $userRepository
      * @param UserManager $userManager
-     * @param Translate $translate
      */
-    public function __construct(UserRepository $userRepository, UserManager $userManager, Translate $translate)
+    public function __construct(UserRepository $userRepository, UserManager $userManager)
     {
         $this->userRepository = $userRepository;
         $this->userManager = $userManager;
-        $this->translate = $translate;
     }
 
 
@@ -133,9 +124,9 @@ class RemoveModal extends BaseControl
             $this->userManager->delete($this->userEntity);
 
             $this->presenter->notificationAjax(
-                $this->translate->translate('User removed'),
-                $this->translate->translate("User %email% successfully removed.", ['email' => $this->userEntity->getEmail()]),
-                    'success',
+                'Uživatel odstaněn.',
+                "Uživatel {$this->userEntity->getEmail()} byl úspěšně odstaněn.",
+                    'info',
                     FALSE
                 );
 

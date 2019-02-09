@@ -14,7 +14,6 @@ use Nette\DateTime;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
-use Wakers\LangModule\Translator\Translate;
 use Wakers\UserModule\Manager\UserManager;
 use Wakers\UserModule\Repository\UserRepository;
 use Wakers\UserModule\Repository\UserRoleRepository;
@@ -41,21 +40,19 @@ class Authenticator implements IAuthenticator
 
 
     /**
-     * @var Translate
+     * Authenticator constructor.
+     * @param UserRepository $userRepository
+     * @param UserRoleRepository $userRoleRepository
+     * @param UserManager $userManager
      */
-    protected $translate;
-
-
     public function __construct(
         UserRepository $userRepository,
         UserRoleRepository $userRoleRepository,
-        UserManager $userManager,
-        Translate $translate
+        UserManager $userManager
     ) {
         $this->userRepository = $userRepository;
         $this->userRoleRepository = $userRoleRepository;
         $this->userManager = $userManager;
-        $this->translate = $translate;
     }
 
 
@@ -73,14 +70,12 @@ class Authenticator implements IAuthenticator
 
         if ($user === NULL)
         {
-            $message = $this->translate->translate('User %email% does not exists', ['email' => $email]);
-            throw new AuthenticationException($message);
+            throw new AuthenticationException("Uživatel '{$email}' neexistuje.");
         }
 
         if (Passwords::verify($password, $user->getPassword()) === FALSE)
         {
-            $message = $this->translate->translate('Incorrect password.');
-            throw new AuthenticationException($message);
+            throw new AuthenticationException("Zadali jste nesprávné heslo.");
         }
 
         $statusKey = array_search(UserAuthorizator::STATUS_APPROVED, UserAuthorizator::ALL_STATUS_KEYS);
@@ -88,9 +83,8 @@ class Authenticator implements IAuthenticator
         if ($user->getStatus() !== $statusKey)
         {
             $status = UserAuthorizator::ALL_STATUS_KEYS[$user->getStatus()];
-            $message = $this->translate->translate('Cannot log-in because your account has not yet been approved. Your actual account status: %status%', ['status' => $status]);
 
-            throw new AuthenticationException($message);
+            throw new AuthenticationException("Nelze se přihlásit - účet ještě nebyl schválen. Váš aktuální status je: '{$status}'.");
         }
 
         $roles = $this->userRoleRepository->findByUser_asArray($user);
