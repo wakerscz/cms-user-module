@@ -9,7 +9,8 @@ $(function ()
 {
     $(document).keyup(function(e)
     {
-        if (e.keyCode === 121)
+        // F10 or F2
+        if (e.keyCode === 121 || e.keyCode === 113)
         {
             $('#wakers_user_login_modal').wakersModal('toggle');
         }
