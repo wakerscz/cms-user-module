@@ -12,7 +12,7 @@ namespace Wakers\UserModule\Manager;
 
 use Latte\Engine;
 use Nette\Application\LinkGenerator;
-use Nette\DateTime;
+use Nette\Utils\DateTime;
 use Nette\Mail\Message;
 use Nette\Mail\SmtpMailer;
 use Nette\Utils\Random;

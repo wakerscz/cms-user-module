@@ -10,7 +10,7 @@
 namespace Wakers\UserModule\Security;
 
 
-use Nette\DateTime;
+use Nette\Utils\DateTime;
 use Nette\Security\AuthenticationException;
 use Nette\Security\IAuthenticator;
 use Nette\Security\Identity;
