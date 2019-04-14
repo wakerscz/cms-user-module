@@ -185,6 +185,11 @@ class UserManager extends AbstractDatabase
             ->addTo($user->getEmail())
             ->setHtmlBody($html);
 
+        foreach ($pr['sender']['bcc'] as $bcc)
+        {
+            $message->addBcc($bcc);
+        }
+
         $smtp = new SmtpMailer($pr['config']);
 
         $this->getConnection()->beginTransaction();
